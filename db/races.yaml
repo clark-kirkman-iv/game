@@ -1,0 +1,78 @@
+---
+:name: Dwarf
+:health: 120
+:attributes:
+  :strength: 30
+  :dexterity: 20
+  :agility: 20
+  :fortitude: 35
+  :willpower: 25
+  :cognition: 25
+  :perception: 25
+  :charisma: 20
+:name: Elf
+:health: 80
+:attributes:
+  :strength: 20
+  :dexterity: 25
+  :agility: 30
+  :fortitude: 20
+  :willpower: 30
+  :cognition: 25
+  :perception: 30
+  :charisma: 25
+:name: Human
+:health: 100
+:attributes:
+  :strength: 25
+  :dexterity: 25
+  :agility: 25
+  :fortitude: 25
+  :willpower: 25
+  :cognition: 25
+  :perception: 20
+  :charisma: 30
+:name: Minotaur
+:health: 110
+:attributes:
+  :strength: 40
+  :dexterity: 25
+  :agility: 30
+  :fortitude: 30
+  :willpower: 20
+  :cognition: 20
+  :perception: 20
+  :charisma: 15
+:name: Halfling
+:health: 90
+:attributes:
+  :strength: 15
+  :dexterity: 35
+  :agility: 35
+  :fortitude: 20
+  :willpower: 20
+  :cognition: 25
+  :perception: 20
+  :charisma: 30
+:name: Nymph
+:health: 60
+:attributes:
+  :strength: 10
+  :dexterity: 25
+  :agility: 25
+  :fortitude: 10
+  :willpower: 30
+  :cognition: 35
+  :perception: 25
+  :charisma: 40
+:name: Template
+:health: 100
+:attributes:
+  :strength: 25
+  :dexterity: 25
+  :agility: 25
+  :fortitude: 25
+  :willpower: 25
+  :cognition: 25
+  :perception: 25
+  :charisma: 25

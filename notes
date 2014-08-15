@@ -1,0 +1,77 @@
+root classes:
+Actor
+  Charcter
+  ??
+Group
+  (contains refs to multiple Actors)
+Item
+  EnvironmentalItem
+  InventoryItem
+    EquippableItem
+    UsableItem
+Action ?
+  has an actor, target, event_type, actand?
+
+
+Actors have a race, attributes, skills.
+Races have base attributes and skills.
+Items have passive (equipped) and active (in use) bonuses (e.g., a mace might do damage (active), have a stun % (active), and give other passive bonuses while equiped.
+All actions are resisted (e.g., attacking someone compares attack value (total skill) vs defense value (total skill) using:
+r**2.5 / (r**2.5+1), r = ratio of actor/target
+Performing an action earns an experience point, which is divvied up according to contributing factor (attributes and skills)
+Attributes should increase much more slowly than skills
+Attributes and skills should increase as something like the sqrt of experience.
+Injuries and fatigue should reduce performance.
+
+Attributes should each have multiple effects.
+
+Strength
+  carry capacity (and how much any particular load/physical action fatigues)
+  damage
+  other strength resistance rolls
+  intimidation of npc's
+Dexterity
+  ability to land a blow accurately
+#  ability to land critical hits (bypassing armor)
+  ability to work with hands precisely (pickpocketing, crafting, ...)
+Agility
+  speed of attacks
+  action initiative
+  attack avoidance (dodging)
+  run speed
+Fortitude
+  Physical ability to heal
+  natural damage resistance.
+  ability to keep going physically while exerting (directly affects 'stamina')
+Willpower
+  ability to keep going mentally while exerting (particularly magic) (this is as close as we get to 'mana')
+  ability to resist mental effects
+  stick-to-it-ness (for tasks requiring extended focus)
+Cognition
+  ability to learn skills (not attributes)
+  ability to understand dieties
+Charisma
+  Leadership - improves friendlies success chances in all situations (if in leadership role)
+  ability to affect npc's positively
+Perception
+  keenness of senses
+  ability to perceive combat openings (trigger critical hits)
+  ability to understand dieties
+  ability to affect npc's positively
+  ability to identify items
+
+
+critical hits:
+  # multiplies damage and reduces the effectiveness of damage resistance (armor, etc)
+  if blow_lands
+    damage = compute_damage()
+    if perceice_opening
+      multiplier = 1 + Random.rand * 2 # a Float 1.0-3.0
+      dr_multiplier = 0.5 + Random.rand(0.5)
+    else
+      multiplier = 1.0
+      dr_multiplier = 1.0
+    end
+    damage = damage * multiplier * (1 - dr * dr_multiplier)
+  end
+
