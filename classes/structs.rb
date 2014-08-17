@@ -2,7 +2,7 @@ require 'exceptions'
 require 'modules/struct_bag'
 
 # character attributes
-AttributeStruct = Struct.new(:strength, :dexterity, :agility, :endurance, :resilience, :willpower, :cognition, :perception, :charisma)
+AttributeStruct = Struct.new(:strength, :dexterity, :agility, :resilience, :endurance, :willpower, :cognition, :perception, :charisma)
 class AttributeStruct ; extend StructBag ; end
 
 # This defines the valid object types & their value ranges for an effect

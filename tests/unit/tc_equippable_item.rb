@@ -38,7 +38,7 @@ describe EquippableItem do
   it "should report basic information properly" do
     [:name, :weight, :item_class, :slot].each{ |sym|
       value = @item.send(sym)
-      assert_equal(instance_variable_get("@"+sym.to_s), @item.send(sym), "instance member has incorrect value: @#{sym.to_s} : #{value}")
+      assert_equal(instance_variable_get("@"+sym.to_s), value, "instance member has incorrect value: @#{sym.to_s} : #{value}")
     }
   end
   

@@ -5,7 +5,8 @@
   :strength: 30
   :dexterity: 20
   :agility: 20
-  :fortitude: 35
+  :resilience: 25
+  :endurace: 25
   :willpower: 25
   :cognition: 25
   :perception: 25
@@ -16,7 +17,8 @@
   :strength: 20
   :dexterity: 25
   :agility: 30
-  :fortitude: 20
+  :resilience: 25
+  :endurace: 25
   :willpower: 30
   :cognition: 25
   :perception: 30
@@ -27,7 +29,8 @@
   :strength: 25
   :dexterity: 25
   :agility: 25
-  :fortitude: 25
+  :resilience: 25
+  :endurace: 25
   :willpower: 25
   :cognition: 25
   :perception: 20
@@ -38,7 +41,8 @@
   :strength: 40
   :dexterity: 25
   :agility: 30
-  :fortitude: 30
+  :resilience: 25
+  :endurace: 25
   :willpower: 20
   :cognition: 20
   :perception: 20
@@ -49,7 +53,8 @@
   :strength: 15
   :dexterity: 35
   :agility: 35
-  :fortitude: 20
+  :resilience: 25
+  :endurace: 25
   :willpower: 20
   :cognition: 25
   :perception: 20
@@ -60,7 +65,8 @@
   :strength: 10
   :dexterity: 25
   :agility: 25
-  :fortitude: 10
+  :resilience: 25
+  :endurace: 25
   :willpower: 30
   :cognition: 35
   :perception: 25
@@ -71,7 +77,8 @@
   :strength: 25
   :dexterity: 25
   :agility: 25
-  :fortitude: 25
+  :resilience: 25
+  :endurace: 25
   :willpower: 25
   :cognition: 25
   :perception: 25
