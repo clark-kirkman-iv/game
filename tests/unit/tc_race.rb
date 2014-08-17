@@ -2,7 +2,8 @@ require_relative '../../environment'
 require 'minitest/spec'
 require 'minitest/autorun'
 require 'classes/race'
-require 'classes/structs'
+require 'classes/body_part'
+require 'classes/effect'
 
 describe Race do
   before do
@@ -24,11 +25,11 @@ describe Race do
     @effects = {
       :passive => {
         :self => [
-                  EffectStruct.new_from_hash({ :class => :resist, :type => :physical,
+                  Effect.new_from_hash({ :category => :resist, :type => :physical,
                                                :value => 0.2, :probability => nil, :duration => nil }),
-                  EffectStruct.new_from_hash({ :class => :skill, :type => :identify_item,
+                  Effect.new_from_hash({ :category => :skill, :type => :identify_item,
                                                :value => 5, :probability => nil, :duration => nil }),
-                  EffectStruct.new_from_hash({ :class => :skill, :type => :axe,
+                  Effect.new_from_hash({ :category => :skill, :type => :axe,
                                                :value => 10, :probability => nil, :duration => nil })
                  ],
         :target => [
@@ -41,28 +42,28 @@ describe Race do
                    ]
       }
     }
-    @item_slots = [ ItemSlot.new(:hand, "Left hand", nil),
-                    ItemSlot.new(:hand, "Right hand", nil),
-                    ItemSlot.new(:legs, "Legs", nil)
+    @body_parts = [ BodyPart.new(:hand, "Left hand"),
+                    BodyPart.new(:hand, "Right hand"),
+                    BodyPart.new(:legs, "Legs")
                   ]
-    @race = Race.new(@name, @attributes, @item_slots, @health, effects: @effects)
+    @race = Race.new(@name, @attributes, @body_parts, @health, effects: @effects)
   end
   
   it "should report basic information properly" do
-    [:name, :attributes, :health, :item_slots].each{ |sym| #ck4, add in :skills here
+    [:name, :attributes, :health, :body_parts].each{ |sym| #ck4, add in :skills here
       value = @race.send(sym)
       assert_equal(instance_variable_get("@"+sym.to_s), @race.send(sym), "instance member has incorrect value: @#{sym.to_s} : #{value}")
     }
   end
   
   it "should allow no passed in effects" do
-    race = Race.new(@name, @attributes, @health)
+    race = Race.new(@name, @attributes, @body_parts, @health)
   end
   
   # tests for effect-getting method
   it "should return the proper value for a requested effect" do
     effects = @race.get_effects(activation=:passive, apply_to=:self, effect_class=:resist, effect_type=:physical)
-    expected = @effects[:passive][:self].select{ |es| es.class == :resist && es.type == :physical }
+    expected = @effects[:passive][:self].select{ |es| es.category == :resist && es.type == :physical }
     assert_equal(1, expected.length)
     assert(expected.length, effects.length)
     expected.each{ |expected_item| assert(effects.include?(expected_item)) }

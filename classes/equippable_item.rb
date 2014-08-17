@@ -1,5 +1,5 @@
 require 'classes/item'
-require 'modules/common_includes'
+require 'modules/effects'
 
 class EquippableItem < Item
   

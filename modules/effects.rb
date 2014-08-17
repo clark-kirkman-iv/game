@@ -1,4 +1,8 @@
-require 'yaml'
+# This file contains module Effects and related structures.
+# This module is intended to be included into classes that
+# will contain Effect objects.  e.g.,
+# include Effects
+
 BLANK_EFFECT_HASH = {
   :passive => {
     :self => [],
@@ -10,11 +14,11 @@ BLANK_EFFECT_HASH = {
   }
 }
 
-# ck4, move elsewhere
-# ck4, add failure tests
+# ck4, add failure tests that return InvalidEffectKey
 class InvalidEffectKey < StandardError ; end
+
 module Effects
-  def get_effects(activation, apply_to, effect_class, effect_type=nil)
+  def get_effects(activation, apply_to, effect_category, effect_type=nil)
     if @effects.keys.include?(activation)
       res = @effects[activation]
     else
@@ -25,7 +29,7 @@ module Effects
     else
       raise InvalidEffectKey.new("Invalid apply_to: #{apply_to}")
     end
-    res = res.select{ |effect| effect.class == effect_class }
+    res = res.select{ |effect| effect.category == effect_category }
     res = res.select{ |effect| effect.type == effect_type } if !effect_type.nil?
     return res
   end

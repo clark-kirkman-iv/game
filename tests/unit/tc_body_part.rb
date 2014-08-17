@@ -78,3 +78,4 @@ describe BodyPart do
   end
   
 end
+#ck4, add tests for new_from_hash

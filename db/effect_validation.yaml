@@ -1,0 +1,37 @@
+---
+:resist:
+  :physical:
+  - :klass: !ruby/class 'Float'
+    :min_value: 0.01
+    :max_value: 1.0
+  :fire:
+  - :klass: !ruby/class 'Float'
+    :min_value: 0.01
+    :max_value: 1.0
+:skill:
+  :identify_item:
+  - :klass: !ruby/class 'Fixnum'
+    :min_value: 1
+    :max_value: 100
+  :axe:
+  - :klass: !ruby/class 'Fixnum'
+    :min_value: 1
+    :max_value: 100
+:attribute:
+  :strength:
+  - :klass: !ruby/class 'Fixnum'
+    :min_value: 1
+    :max_value: 100
+:damage:
+  :physical:
+  - :klass: !ruby/class 'Range'
+    :min_value: 1
+    :max_value: 100
+  :fire:
+  - :klass: !ruby/class 'Range'
+    :min_value: 1
+    :max_value: 100
+  :stun:
+  - :klass: !ruby/class 'NilClass'
+    :min_value: nil
+    :max_value: nil

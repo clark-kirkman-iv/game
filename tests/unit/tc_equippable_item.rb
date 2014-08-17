@@ -2,7 +2,7 @@ require_relative '../../environment'
 require 'minitest/spec'
 require 'minitest/autorun'
 require 'classes/equippable_item'
-require 'classes/structs'
+require 'classes/effect'
 
 describe EquippableItem do
   before do
@@ -13,7 +13,7 @@ describe EquippableItem do
     @effects = {
       :passive => {
         :self => [
-                  EffectStruct.new_from_hash({ :class => :attribute, :type => :strength,
+                  Effect.new_from_hash({ :category => :attribute, :type => :strength,
                                                :value => 2, :probability => nil, :duration => nil })
                  ],
         :target => [
@@ -23,11 +23,11 @@ describe EquippableItem do
         :self => [
                  ],
         :target => [
-                    EffectStruct.new_from_hash({ :class => :damage, :type => :physical,
+                    Effect.new_from_hash({ :category => :damage, :type => :physical,
                                                  :value => 1..6, :probability => 1.0, :duration => nil }), #ck4, have an INSTANTANEOUS constant?
-                    EffectStruct.new_from_hash({ :class => :damage, :type => :physical,
+                    Effect.new_from_hash({ :category => :damage, :type => :physical,
                                                  :value => 1..1, :probability => 0.1, :duration => 3 }),
-                    EffectStruct.new_from_hash({ :class => :damage, :type => :stun,
+                    Effect.new_from_hash({ :category => :damage, :type => :stun,
                                                  :value => nil, :probability => 0.2, :duration => 1 })
                    ]
       }
@@ -52,23 +52,23 @@ describe EquippableItem do
   it "should return the proper value for a requested effect" do
     # class and type specification
     effects = @item.get_effects(:active, :target, :damage, :physical)
-    expected = @effects[:active][:target].select{ |es| es.class == :damage && es.type == :physical }
+    expected = @effects[:active][:target].select{ |es| es.category == :damage && es.type == :physical }
     assert_equal(2, expected.length)
-    assert(expected.length, effects.length)
+    assert_equal(expected.length, effects.length)
     expected.each{ |expected_item| assert(effects.include?(expected_item)) }
     
     # no type specification
     effects = @item.get_effects(:active, :target, :damage)
-    expected = @effects[:active][:target].select{ |es| es.class == :damage }
+    expected = @effects[:active][:target].select{ |es| es.category == :damage }
     assert_equal(3, expected.length)
-    assert(expected.length, effects.length)
+    assert_equal(expected.length, effects.length)
     expected.each{ |expected_item| assert(effects.include?(expected_item)) }
     
     # no matches
     effects = @item.get_effects(:active, :target, :ice_cream)
-    expected = @effects[:active][:target].select{ |es| es.class == :ice_cream }
+    expected = @effects[:active][:target].select{ |es| es.category == :ice_cream }
     assert_equal(0, expected.length)
-    assert(expected.length, effects.length)
+    assert_equal(expected.length, effects.length)
   end
   
   it "should iterate over all effects properly" do

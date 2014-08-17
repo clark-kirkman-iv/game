@@ -46,4 +46,10 @@ class BodyPart
     @item = nil
   end
   
+  # despite the initializer having optional args, all are required when creating from
+  # a Hash.
+  def self.new_from_hash(hash)
+    raise InvalidArg.new("must provide a Hash object") if !hash.is_a?(Hash)
+    new(hash.fetch(:type), hash.fetch(:name), hash.fetch(:container), hash.fetch(:injury))
+  end
 end
