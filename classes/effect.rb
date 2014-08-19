@@ -2,12 +2,16 @@ require 'classes/structs'
 require 'exceptions'
 
 class Effect
-  INSTANTANEOUS = nil
-  ALWAYS = nil
+  # probability constants
+  ALWAYS = -1 # also used for durations
   VALID_PROBABILITY = 0.01..1 #valid range
+  
+  # duration constants
+  INSTANTANEOUS = -2
   VALID_DURATION = 1..Float::INFINITY
+  
   VALID_VALUE_CLASSES = [Numeric, Range, NilClass]
-
+  
   def self.load_definitions_file(filename)
     hash = YAML.load_file(filename)
     hash.each{ |category, category_hash|
@@ -76,6 +80,8 @@ class Effect
     return valid
   end
   
+  # returns the Hashes that define valid value types/min/max for the given category & type
+  # e.g., returns: [ {:klass => A, :min_value => B, :max_value => C}, ... ]
   def self.valid_values(category, type)
     begin
       valid_value_hashes = VALID_INPUTS.fetch(category).fetch(type)
@@ -103,8 +109,10 @@ class Effect
     if !(probability == ALWAYS || (probability.is_a?(Float) && (probability >= VALID_PROBABILITY.min && probability <= VALID_PROBABILITY.max)))
       raise InvalidArg.new("probability must be Float, and #{VALID_PROBABILITY.min} <= p <= #{VALID_PROBABILITY.max} or ALWAYS: #{ALWAYS.inspect}.")
     end
-    if !(duration == INSTANTANEOUS || (duration.is_a?(Fixnum) && (duration >= VALID_DURATION.min || duration <= VALID_DURATION.max)))
-      raise InvalidArg.new("duration must be Fixnum, and #{VALID_DURATION.min} <= d <= #{VALID_DURATION.max} or INSTANTANEOUS: #{INSTANTANEOUS.inspect} .")
+    
+    if !(duration == INSTANTANEOUS || duration == ALWAYS ||
+         (duration.is_a?(Fixnum) && (duration >= VALID_DURATION.min && duration <= VALID_DURATION.max)))
+      raise InvalidArg.new("duration must be Fixnum, and #{VALID_DURATION.min} <= d <= #{VALID_DURATION.max} , INSTANTANEOUS: #{INSTANTANEOUS.inspect} , or ALWAYS: #{ALWAYS} .")
     end
   end
 #  private :valid_values, :validate_inputs
@@ -122,7 +130,7 @@ class Effect
   
   def self.new_from_hash(hash)
     raise InvalidArg.new("must provide a Hash object") if !hash.is_a?(Hash)
-    new(hash.fetch(:category), hash.fetch(:type), value: hash.fetch(:value,nil),
+    new(hash.fetch(:category), hash.fetch(:type), value: hash.fetch(:value, nil),
         probability: hash.fetch(:probability, nil), duration: hash.fetch(:duration, nil))
   end
 end
