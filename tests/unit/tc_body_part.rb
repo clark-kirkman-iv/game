@@ -77,5 +77,9 @@ describe BodyPart do
     assert_raises(RuntimeError){ non_container_body_part.unequip }
   end
   
+  #ck4, fill
+  it "should clone properly" do
+    raise "unimplemented"
+  end
 end
 #ck4, add tests for new_from_hash

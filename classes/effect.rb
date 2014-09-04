@@ -3,11 +3,11 @@ require 'exceptions'
 
 class Effect
   # probability constants
-  ALWAYS = -1 # also used for durations
   VALID_PROBABILITY = 0.01..1 #valid range
   
   # duration constants
-  INSTANTANEOUS = -2
+  INSTANT = -2
+  FOREVER = Float::INFINITY
   VALID_DURATION = 1..Float::INFINITY
   
   VALID_VALUE_CLASSES = [Numeric, Range, NilClass]
@@ -94,7 +94,7 @@ class Effect
   def validate_inputs(category, type, value, probability, duration)
     if !self.class.valid_categories.include?(category)
       str = self.class.valid_categories.map{|c|c.inspect}.join(", ")
-      raise InvalidArg.new("category must be one of: #{str}")
+      raise InvalidArg.new("category must be one of: #{str} . Is: #{category.inspect}")
     end
     valid_types = self.class.valid_types(category)
     if !self.class.valid_types(category).include?(type)
@@ -106,17 +106,17 @@ class Effect
       raise InvalidArg.new("value (#{value}) for category #{category.inspect}, type #{type.inspect} must satisfy one of: #{valid_values_str}")
     end
     
-    if !(probability == ALWAYS || (probability.is_a?(Float) && (probability >= VALID_PROBABILITY.min && probability <= VALID_PROBABILITY.max)))
-      raise InvalidArg.new("probability must be Float, and #{VALID_PROBABILITY.min} <= p <= #{VALID_PROBABILITY.max} or ALWAYS: #{ALWAYS.inspect}.")
+    if !(probability.is_a?(Float) && (probability >= VALID_PROBABILITY.min && probability <= VALID_PROBABILITY.max))
+      raise InvalidArg.new("probability must be Float, and #{VALID_PROBABILITY.min} <= p <= #{VALID_PROBABILITY.max} .")
     end
     
-    if !(duration == INSTANTANEOUS || duration == ALWAYS ||
+    if !(duration == INSTANT || duration == FOREVER ||
          (duration.is_a?(Fixnum) && (duration >= VALID_DURATION.min && duration <= VALID_DURATION.max)))
-      raise InvalidArg.new("duration must be Fixnum, and #{VALID_DURATION.min} <= d <= #{VALID_DURATION.max} , INSTANTANEOUS: #{INSTANTANEOUS.inspect} , or ALWAYS: #{ALWAYS} .")
+      raise InvalidArg.new("duration must be Fixnum, and #{VALID_DURATION.min} <= d <= #{VALID_DURATION.max} , INSTANT: #{INSTANT.inspect} .  Is: #{duration}")
     end
   end
-#  private :valid_values, :validate_inputs
   
+  # category of effect, type/sub-category, value if any, probability of effect being returned in a selection, length of effect
   attr_reader :category, :type, :value, :probability, :duration
   
   def initialize(category, type, value: nil, probability: nil, duration: nil)
@@ -133,4 +133,18 @@ class Effect
     new(hash.fetch(:category), hash.fetch(:type), value: hash.fetch(:value, nil),
         probability: hash.fetch(:probability, nil), duration: hash.fetch(:duration, nil))
   end
+  
+  def ==(other)
+    ret = if @category == other.category &&
+              @type == other.type &&
+              @value == other.value &&
+              @probability == other.probability &&
+              @duration == other.duration
+            true
+          else
+            false
+          end
+    return ret
+  end
+  
 end

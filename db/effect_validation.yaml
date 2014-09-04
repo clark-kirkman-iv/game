@@ -8,6 +8,10 @@
   - :klass: !ruby/class 'Float'
     :min_value: 0.01
     :max_value: 1.0
+  :stun:
+  - :klass: !ruby/class 'Float'
+    :min_value: 0.01
+    :max_value: 1.0
 :skill:
   :identify_item:
   - :klass: !ruby/class 'Fixnum'

@@ -26,11 +26,11 @@ describe Race do
       :passive => {
         :self => [
                   Effect.new_from_hash({ :category => :resist, :type => :physical,
-                                               :value => 0.2, :probability => nil, :duration => nil }),
+                                               :value => 0.2, :probability => 1.0, :duration => Float::INFINITY }),
                   Effect.new_from_hash({ :category => :skill, :type => :identify_item,
-                                               :value => 5, :probability => nil, :duration => nil }),
+                                               :value => 5, :probability => 1.0, :duration => Float::INFINITY }),
                   Effect.new_from_hash({ :category => :skill, :type => :axe,
-                                               :value => 10, :probability => nil, :duration => nil })
+                                               :value => 10, :probability => 1.0, :duration => Float::INFINITY })
                  ],
         :target => [
                    ]
@@ -46,7 +46,7 @@ describe Race do
                     BodyPart.new(:hand, "Right hand"),
                     BodyPart.new(:legs, "Legs")
                   ]
-    @race = Race.new(@name, @attributes, @body_parts, @health, effects: @effects)
+    @race = Race.new(@name, @attributes, @body_parts, @health, effects = @effects)
   end
   
   it "should report basic information properly" do
@@ -62,7 +62,7 @@ describe Race do
   
   # tests for effect-getting method
   it "should return the proper value for a requested effect" do
-    effects = @race.get_effects(activation=:passive, apply_to=:self, effect_class=:resist, effect_type=:physical)
+    effects = @race.get_effects(:passive, :self, effect_category: :resist, effect_type: :physical)
     expected = @effects[:passive][:self].select{ |es| es.category == :resist && es.type == :physical }
     assert_equal(1, expected.length)
     assert(expected.length, effects.length)
@@ -71,11 +71,11 @@ describe Race do
   
   it "should iterate over all effects properly" do
     total = 0
-    last_effect_hash = -1
+    last_effect_hash = nil
     [:active, :passive].each{ |activation|
       [:self, :target].each{ |apply_to|
         @race.each_effect(activation, apply_to){ |effect_hash| # make sure each returned effect is included
-          assert(effect_hash != last_effect_hash) if last_effect_hash != -1 # check this after we've gotten one back
+          assert(effect_hash != last_effect_hash) if !last_effect_hash.nil? # check this after we've gotten one back
           assert(@effects[activation][apply_to].include?(effect_hash))
           total += 1
           last_effect_hash = effect_hash # to make sure we're getting different effect hashes, not just the same one

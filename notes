@@ -75,3 +75,28 @@ critical hits:
     damage = damage * multiplier * (1 - dr * dr_multiplier)
   end
 
+
+
+
+effects
+value, probability, duration (e.g., damage 5..10, 0.80, duration = 10 rounds)
+value, probability, duration=INSTANTANEOUS (e.g., damage 5..10, 0.8, instantaneous)
+
+value (e.g., strength bonus 5, always on, forever)
+
+no value, probability, duration (e.g., stun, 0.75, 5 turns)
+no value, probability, duration=INSTANTANEOUS (who knows? instant death?)
+
+if we collapse probability to 0.01-1 (which includes always):
+  effects have probability, and may have value or duration
+    InstantaneousEffect: probability, may have value
+    DurationEffect: probability, duration, may have value
+    Effect: no probability (always), no duration.
+
+
+Effect
+
+ChanceEffect < Effect
+  probability (0.01-0.99)
+
+Insta

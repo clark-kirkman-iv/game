@@ -7,8 +7,8 @@ class EquippableItem < Item
   include Effects
   
   attr_reader :slot
-  
-  def initialize(name, item_class, weight, slot, effects: BLANK_EFFECT_HASH.clone)
+  #ck4, add arg checking for types/vaiues, like race.rb
+  def initialize(name, item_class, weight, slot, effects = new_blank_effect_hash)
     super(name, item_class, weight)
     @slot = slot
     @effects = effects

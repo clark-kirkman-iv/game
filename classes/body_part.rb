@@ -20,6 +20,8 @@ class BodyPart
     @injury = Injury.new(injury)
   end
   
+  alias :container? :container
+  
   def injured?
     return @injury.duration > 0
   end
@@ -50,6 +52,24 @@ class BodyPart
   # a Hash.
   def self.new_from_hash(hash)
     raise InvalidArg.new("must provide a Hash object") if !hash.is_a?(Hash)
-    new(hash.fetch(:type), hash.fetch(:name), hash.fetch(:container), hash.fetch(:injury))
+    new(hash.fetch(:type), hash.fetch(:name), container: hash.fetch(:container), injury: hash.fetch(:injury))
   end
+  
+  # ck4, add test
+  def clone
+    return self.class.new(@type, @name, container: @container, injury: @injury.duration)
+  end
+  
+  # checks value equivalence to another BodyPart object; ignores contained item (to prevent item dup)
+  def ==(other)
+    return false if other.class != self.class
+    if @type != other.type ||
+        @name != other.name ||
+        @container != other.container ||
+        !(@injury == other.injury)
+      return false
+    end
+    return true
+  end
+  
 end

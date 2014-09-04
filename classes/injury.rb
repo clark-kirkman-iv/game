@@ -35,4 +35,13 @@ class Injury
     @duration = MAX_DURATION if @duration > MAX_DURATION
   end
   
+  # checks value equivalence to another Injury object
+  def ==(other)
+    return false if other.class != self.class
+    if @duration != other.duration
+      return false
+    end
+    return true
+  end
+  
 end
